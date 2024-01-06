@@ -1,5 +1,6 @@
 "use strict";
 // --- Day 3: Gear Ratios ---
+// https://adventofcode.com/2023/day/3
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     var desc = Object.getOwnPropertyDescriptor(m, k);
