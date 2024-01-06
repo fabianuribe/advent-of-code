@@ -1,0 +1,135 @@
+"use strict";
+// --- Day 1: Trebuchet?! ---
+//
+// Something is wrong with global snow production, and you've been selected to take a look. The Elves have even given you a map; on it, they've used stars to mark the top fifty locations that are likely to be having problems.
+//
+// You've been doing this long enough to know that to restore snow operations, you need to check all fifty stars by December 25th.
+//
+// Collect stars by solving puzzles. Two puzzles will be made available on each day in the Advent calendar; the second puzzle is unlocked when you complete the first. Each puzzle grants one star. Good luck!
+//
+// You try to ask why they can't just use a weather machine ("not powerful enough") and where they're even sending you ("the sky") and why your map looks mostly blank ("you sure ask a lot of questions") and hang on did you just say the sky ("of course, where do you think snow comes from") when you realize that the Elves are already loading you into a trebuchet ("please hold still, we need to strap you in").
+//
+// As they're making the final adjustments, they discover that their calibration document (your puzzle input) has been amended by a very young Elf who was apparently just excited to show off her art skills. Consequently, the Elves are having trouble reading the values on the document.
+//
+// The newly-improved calibration document consists of lines of text; each line originally contained a specific calibration value that the Elves now need to recover. On each line, the calibration value can be found by combining the first digit and the last digit (in that order) to form a single two-digit number.
+//
+// For example:
+//
+// 1abc2
+// pqr3stu8vwx
+// a1b2c3d4e5f
+// treb7uchet
+//
+// In this example, the calibration values of these four lines are 12, 38, 15, and 77. Adding these together produces 142.
+//
+// --- Part Two ---
+//
+// Your calculation isn't quite right. It looks like some of the digits are actually spelled out with letters: one, two, three, four, five, six, seven, eight, and nine also count as valid "digits".
+//
+// Equipped with this new information, you now need to find the real first and last digit on each line. For example:
+//
+// two1nine
+// eightwothree
+// abcone2threexyz
+// xtwone3four
+// 4nineeightseven2
+// zoneight234
+// 7pqrstsixteen
+//
+// In this example, the calibration values are 29, 83, 13, 24, 42, 14, and 76. Adding these together produces 281.
+//
+//
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const fs = __importStar(require("fs"));
+function findSpelledDigits(line) {
+    const dict = {
+        'one': '1',
+        'two': '2',
+        'three': '3',
+        'four': '4',
+        'five': '5',
+        'six': '6',
+        'seven': '7',
+        'eight': '8',
+        'nine': '9',
+    };
+    let results = [];
+    Object.keys(dict).forEach(key => {
+        let index = line.indexOf(key);
+        while (index > -1) {
+            results.push({ digit: dict[key], index: index });
+            index = line.indexOf(key, index + 1);
+        }
+    });
+    results.sort((a, b) => a.index - b.index);
+    return results;
+}
+function getCalibrationValue(line) {
+    let first = '';
+    let last = '';
+    let i = -1;
+    let j = line.length;
+    const spelledDigits = findSpelledDigits(line);
+    while (i <= j) {
+        if (first && last)
+            break;
+        if (spelledDigits.length && spelledDigits[0].index <= i) {
+            first = spelledDigits[0].digit;
+        }
+        if (!first) {
+            i += 1;
+            let charCode = line[i].charCodeAt(0);
+            if (charCode >= 48 && charCode <= 57) {
+                first = line[i];
+            }
+        }
+        if (spelledDigits.length && spelledDigits[spelledDigits.length - 1].index >= j) {
+            last = spelledDigits[spelledDigits.length - 1].digit;
+        }
+        if (!last) {
+            j -= 1;
+            let charCode = line[j].charCodeAt(0);
+            if (charCode >= 48 && charCode <= 57) {
+                last = line[j];
+            }
+        }
+    }
+    return parseInt(`${first}${last}`);
+}
+function solve(input) {
+    return input.reduce((acc, cur) => acc + getCalibrationValue(cur), 0);
+}
+function loadInput() {
+    const input = fs.readFileSync('./input.txt', 'utf8');
+    const lines = input.split(/\r?\n/);
+    return lines;
+}
+function run() {
+    const input = loadInput();
+    const result = solve(input);
+    console.log(result);
+}
+run();
