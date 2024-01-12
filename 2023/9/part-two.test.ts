@@ -15,6 +15,6 @@ describe('--- Day 9: Mirage Maintenance (Part Two) ---', () => {
 
   test('Puzzle Input', () => {
     const input = loadInput(path.join(__dirname, './input.txt'));
-    expect(solve(input)).toBe(1757008019);
+    expect(solve(input)).toBe(995);
   });
 });
