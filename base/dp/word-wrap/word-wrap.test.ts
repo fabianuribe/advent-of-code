@@ -6,7 +6,7 @@ describe('word wrap', () => {
     let t1 = 6;
     let s2 = 'AAAAAA BBB CCCCC DD EEEE';
     let t2 = 10;
-    expect(wordWrap(s1, t1)).toBe(11);
-    expect(wordWrap(s2, t2)).toBe(26);
+    expect(wordWrap(s1, t1)).toEqual([['AAA'], ['BB', 'CC'], ['DDDDD']]);
+    expect(wordWrap(s2, t2)).toEqual([['AAAAAA'], ['BBB', 'CCCCC'], ['DD', 'EEEE']]);
   });
 });

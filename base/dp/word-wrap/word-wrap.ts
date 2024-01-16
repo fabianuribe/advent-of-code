@@ -1,4 +1,4 @@
-function wordWrap(text: string, lineWidth: number): number {
+function wordWrap(text: string, lineWidth: number): string[][] {
   let words = text.split(' ');
   let chars = words.map((word) => word.length);
   let cache: number[][] = Array.from({ length: words.length }, () => new Array(words.length));
@@ -41,8 +41,7 @@ function wordWrap(text: string, lineWidth: number): number {
     i = result[i]
   }
 
-  console.log(justify);
-  return cost[0];
+  return justify;
 }
 
 export default wordWrap;
