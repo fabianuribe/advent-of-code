@@ -1,4 +1,4 @@
-import levenstein from './part-one';
+import levenstein from './levenstein';
 
 describe('Levenstein', () => {
   test('----', () => {
