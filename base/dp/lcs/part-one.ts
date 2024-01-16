@@ -33,14 +33,23 @@ function lcs_unoptimized(a: string, b: string): number {
           cache[ai][bi - 1]
         );
       }
-      console.log(cache);
     }
   }
-
   return cache[a.length][b.length];
 }
 
-function lcs(a: string, b: string): number {
+function lcs(first: string, second: string): number {
+  let a;
+  let b;
+
+  if (first.length < second.length) {
+    a = second;
+    b = first;
+  } else {
+    a = first;
+    b = second;
+  }
+
   let cache = Array.from({ length: 2 }, () => new Array(b.length + 1));
   for (let ai = 0; ai < a.length + 1; ai += 1) {
     for (let bi = 0; bi < b.length + 1; bi += 1) {
@@ -64,8 +73,6 @@ function lcs(a: string, b: string): number {
   }
 
   return cache[0][b.length];
-
-
 }
 
 
